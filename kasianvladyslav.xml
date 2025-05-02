@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="kasianvladyslav.xslt"?>
+<transakcje xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="kasianvladyslav.xsd">
+  <transakcja><lp>1</lp><nazwa>wpłata</nazwa><kwota>1000.50</kwota><waluta>PLN</waluta><wykonal>Adam A.</wykonal></transakcja>
+  <transakcja><lp>2</lp><nazwa>odsetki</nazwa><kwota>20.00</kwota><waluta>PLN</waluta></transakcja>
+  <transakcja><lp>3</lp><nazwa>wpłata</nazwa><kwota>250.00</kwota><waluta>PLN</waluta><wykonal>Jan J.</wykonal></transakcja>
+  <transakcja><lp>4</lp><nazwa>przelew</nazwa><kwota>1234.50</kwota><waluta>EUR</waluta><wykonal>Jan J.</wykonal></transakcja>
+  <transakcja><lp>5</lp><nazwa>przelew</nazwa><kwota>2222.22</kwota><waluta>EUR</waluta><wykonal>Ewa B.</wykonal></transakcja>
+  <transakcja><lp>6</lp><nazwa>przelew</nazwa><kwota>444.00</kwota><waluta>EUR</waluta><wykonal>Adam A.</wykonal></transakcja>
+  <transakcja><lp>7</lp><nazwa>korekta</nazwa><kwota>20.50</kwota><waluta>PLN</waluta><wykonal>Adam A.</wykonal></transakcja>
+  <transakcja><lp>8</lp><nazwa>odsetki</nazwa><kwota>10.00</kwota><waluta>EUR</waluta></transakcja>
+  <transakcja><lp>9</lp><nazwa>wpłata</nazwa><kwota>2250.50</kwota><waluta>EUR</waluta><wykonal>Jan J.</wykonal></transakcja>
+  <transakcja><lp>10</lp><nazwa>przelew</nazwa><kwota>4567.00</kwota><waluta>PLN</waluta><wykonal>Ewa B.</wykonal></transakcja>
+  <transakcja><lp>11</lp><nazwa>wpłata</nazwa><kwota>500.00</kwota><waluta>PLN</waluta><wykonal>Adam A.</wykonal></transakcja>
+  <transakcja><lp>12</lp><nazwa>wpłata</nazwa><kwota>15000.00</kwota><waluta>EUR</waluta><wykonal>Jan J.</wykonal></transakcja>
+  <transakcja><lp>13</lp><nazwa>przelew</nazwa><kwota>100.00</kwota><waluta>PLN</waluta><wykonal>Ewa B.</wykonal></transakcja>
+  <transakcja><lp>14</lp><nazwa>korekta</nazwa><kwota>40.50</kwota><waluta>EUR</waluta><wykonal>Adam A.</wykonal></transakcja>
+  <transakcja><lp>15</lp><nazwa>wpłata</nazwa><kwota>900.00</kwota><waluta>EUR</waluta><wykonal>Jan J.</wykonal></transakcja>
+  <transakcja><lp>16</lp><nazwa>wpłata</nazwa><kwota>100.00</kwota><waluta>EUR</waluta><wykonal>Jan J.</wykonal></transakcja>
+  <transakcja><lp>17</lp><nazwa>przelew</nazwa><kwota>100.00</kwota><waluta>PLN</waluta><wykonal>Ewa B.</wykonal></transakcja>
+  <transakcja><lp>18</lp><nazwa>przelew</nazwa><kwota>100.00</kwota><waluta>PLN</waluta><wykonal>Ewa B.</wykonal></transakcja>
+  <transakcja><lp>19</lp><nazwa>korekta</nazwa><kwota>40.50</kwota><waluta>EUR</waluta><wykonal>Adam A.</wykonal></transakcja>
+  <transakcja><lp>20</lp><nazwa>wpłata</nazwa><kwota>900.00</kwota><waluta>EUR</waluta><wykonal>Jan J.</wykonal></transakcja>
+</transakcje>
