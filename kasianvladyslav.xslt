@@ -1,59 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-  <xsl:output method="html" encoding="UTF-8" indent="yes"/>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:output method="html" indent="yes" doctype-system="about:legacy-compat" encoding="UTF-8"/>
+
+  <!-- Keys -->
+  <xsl:key name="pln-po-nazwie" match="Transakcja[Waluta='PLN']" use="Nazwa"/>
+  <xsl:key name="eur-po-nazwie" match="Transakcja[Waluta='EUR']" use="Nazwa"/>
+  <xsl:key name="wykonawcy" match="Transakcja[Wykonawca != '']" use="Wykonawca"/>
+
+  <!-- Main template -->
   <xsl:template match="/">
     <html>
-      <head><title>Transakcje</title></head>
       <body>
+        <!-- PLN Table -->
         <h2>Transakcje w PLN:</h2>
-        <table border="1">
+        <table>
           <tr><th>Lp.</th><th>Nazwa transakcji</th><th>Kwota</th></tr>
-          <xsl:for-each select="transakcje/transakcja[waluta='PLN']">
-            <tr>
-              <td><xsl:value-of select="lp"/></td>
-              <td><xsl:value-of select="nazwa"/></td>
-              <td><xsl:value-of select="kwota"/></td>
-            </tr>
-          </xsl:for-each>
+          <xsl:call-template name="pln-transakcje"/>
           <tr>
-            <td colspan="2">SUMA</td>
+            <td></td>
+            <th>SUMA</th>
             <td>
-              <xsl:value-of select="format-number(sum(transakcje/transakcja[waluta='PLN']/kwota), '#.00')"/>
+              <xsl:value-of select="format-number(
+                sum(//Transakcja[Waluta='PLN']/Kwota/translate(translate(., ' ', ''), ',', '.')),
+                '0.00'
+              )"/>
             </td>
           </tr>
         </table>
 
+        <!-- EUR Table -->
         <h2>Transakcje w EUR:</h2>
-        <table border="1">
+        <table>
           <tr><th>Lp.</th><th>Nazwa transakcji</th><th>Ilość</th></tr>
-          <xsl:for-each select="distinct-values(transakcje/transakcja[waluta='EUR']/nazwa)">
-            <xsl:variable name="nazwa" select="."/>
-            <tr>
-              <td><xsl:number value="position()"/></td>
-              <td><xsl:value-of select="$nazwa"/></td>
-              <td><xsl:value-of select="count(/transakcje/transakcja[waluta='EUR' and nazwa=$nazwa])"/></td>
-            </tr>
-          </xsl:for-each>
+          <xsl:call-template name="eur-transakcje"/>
           <tr>
-            <td colspan="2">SUMA</td>
-            <td><xsl:value-of select="count(/transakcje/transakcja[waluta='EUR'])"/></td>
+            <td></td>
+            <th>SUMA</th>
+            <td><xsl:value-of select="count(//Transakcja[Waluta='EUR'])"/></td>
           </tr>
         </table>
 
-        <h2>Ilość transakcji wykonanych przez osoby:</h2>
-        <table border="1">
+        <!-- People Table -->
+        <h2>Ilość transakcji wykonanych przez poszczególne osoby:</h2>
+        <table>
           <tr><th>Lp.</th><th>Wykonawca</th><th>Ilość transakcji</th></tr>
-          <xsl:for-each select="distinct-values(transakcje/transakcja/wykonal)">
-            <xsl:sort/>
-            <xsl:variable name="person" select="."/>
+          <xsl:for-each select="//Transakcja[Wykonawca != ''][generate-id() = generate-id(key('wykonawcy', Wykonawca)[1])]">
+            <xsl:sort select="Wykonawca"/>
             <tr>
-              <td><xsl:number value="position()"/></td>
-              <td><xsl:value-of select="$person"/></td>
-              <td><xsl:value-of select="count(/transakcje/transakcja[wykonal=$person])"/></td>
+              <td><xsl:value-of select="position()"/></td>
+              <td><xsl:value-of select="Wykonawca"/></td>
+              <td><xsl:value-of select="count(key('wykonawcy', Wykonawca))"/></td>
             </tr>
           </xsl:for-each>
         </table>
       </body>
     </html>
+  </xsl:template>
+
+  <!-- Templates for grouping -->
+  <xsl:template name="pln-transakcje">
+    <xsl:for-each select="//Transakcja[Waluta='PLN'][generate-id() = generate-id(key('pln-po-nazwie', Nazwa)[1])]">
+      <xsl:sort select="
+        (contains(Nazwa, 'wpłata') * 1) + 
+        (contains(Nazwa, 'odsetki') * 2) + 
+        (contains(Nazwa, 'przelew') * 3) + 
+        (contains(Nazwa, 'korekta') * 4)
+      "/>
+      <tr>
+        <td><xsl:value-of select="position()"/></td>
+        <td><xsl:value-of select="Nazwa"/></td>
+        <td>
+          <xsl:value-of select="format-number(
+            sum(key('pln-po-nazwie', Nazwa)/Kwota/translate(translate(., ' ', ''), ',', '.')),
+            '0.00'
+          )"/>
+        </td>
+      </tr>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template name="eur-transakcje">
+    <xsl:for-each select="//Transakcja[Waluta='EUR'][generate-id() = generate-id(key('eur-po-nazwie', Nazwa)[1])]">
+      <xsl:sort select="
+        (contains(Nazwa, 'wpłata') * 1) + 
+        (contains(Nazwa, 'odsetki') * 2) + 
+        (contains(Nazwa, 'przelew') * 3) + 
+        (contains(Nazwa, 'korekta') * 4)
+      "/>
+      <tr>
+        <td><xsl:value-of select="position()"/></td>
+        <td><xsl:value-of select="Nazwa"/></td>
+        <td><xsl:value-of select="count(key('eur-po-nazwie', Nazwa))"/></td>
+      </tr>
+    </xsl:for-each>
   </xsl:template>
 </xsl:stylesheet>

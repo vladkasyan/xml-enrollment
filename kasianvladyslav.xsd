@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="transakcje">
+  <xs:element name="Transakcje">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="transakcja" maxOccurs="unbounded">
+        <xs:element name="Transakcja" maxOccurs="unbounded">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="lp" type="xs:integer"/>
-              <xs:element name="nazwa" type="xs:string"/>
-              <xs:element name="kwota" type="xs:decimal"/>
-              <xs:element name="waluta" type="xs:string"/>
-              <xs:element name="wykonal" type="xs:string" minOccurs="0"/>
+              <xs:element name="Lp" type="xs:integer"/>
+              <xs:element name="Nazwa" type="xs:string"/>
+              <xs:element name="Kwota" type="xs:string"/>
+              <xs:element name="Waluta">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="PLN"/>
+                    <xs:enumeration value="EUR"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Wykonawca" type="xs:string" nillable="true"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
